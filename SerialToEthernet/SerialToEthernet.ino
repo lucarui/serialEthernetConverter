@@ -2,20 +2,20 @@
 #include <Ethernet.h>
 
 // ethernet
-byte mac[] = { 0xD3, 0x4D, 0xB3, 0x3F, 0xF3, 0x3D };
-byte ip[] = { 10, 13, 38, 177 };
-byte gateway[] = { 10, 13, 38, 1 };
+byte mac[] = { 0xDE, 0x0D, 0xBE, 0xEF, 0xFE, 0xED };
+byte ip[] = { 192, 168, 0, 70 };
+byte gateway[] = { 192, 168, 0, 1 };
 byte subnet[] = { 255, 255, 255, 0 };
 
 // serial connection
-int serialBaud = 19200;
+int serialBaud = 9600;
 int serialCfg = SERIAL_8N1; // Default settings controller has 8 data, 1 stop and no parity.
 
 // socket parameters
 int serverPort = 8888;
 
 // start TCP servers
-EthernetServer server(serverPort);
+EthernetServer server = EthernetServer(serverPort);
 
 
 void setup() {
@@ -23,7 +23,7 @@ void setup() {
   Serial1.begin(serialBaud, serialCfg); // Open Serial1 communications
   Serial.begin(serialBaud, serialCfg); // Open Serial communications
   Ethernet.begin(mac, ip, gateway, subnet); // Start the Ethernet connection
-  Ethernet.begin(mac);
+  //Ethernet.begin(mac);
   server.begin(); // Begin listening for TCP connections
   Serial.println();
   delay(250);
