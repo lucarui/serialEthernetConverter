@@ -1,14 +1,19 @@
 #include <SPI.h>
 #include <Ethernet.h>
+#include "ESP8266WiFi.h"
+
+// WiFi parameters
+const char* ssid = "tpwifi";
+const char* password = "i9rKym6rqiz83E0d";
 
 // ethernet
-byte mac[] = { 0xD3, 0x4D, 0xB3, 0x3F, 0xF3, 0x3D };
-byte ip[] = { 10, 13, 38, 177 };
-byte gateway[] = { 10, 13, 38, 1 };
+//byte mac[] = { 0xD3, 0x4D, 0xB3, 0x3F, 0xF3, 0x3D };
+byte ip[] = { 192, 168, 0, 70 };
+byte gateway[] = { 192, 168, 0, 1 };
 byte subnet[] = { 255, 255, 255, 0 };
 
 // serial connection
-int serialBaud = 19200;
+int serialBaud = 9600;
 int serialCfg = SERIAL_8N1; // Default settings controller has 8 data, 1 stop and no parity.
 
 // socket parameters
@@ -22,18 +27,35 @@ void setup() {
   delay(1250);
   Serial1.begin(serialBaud, serialCfg); // Open Serial1 communications
   Serial.begin(serialBaud, serialCfg); // Open Serial communications
-  Ethernet.begin(mac, ip, gateway, subnet); // Start the Ethernet connection
-  Ethernet.begin(mac);
-  server.begin(); // Begin listening for TCP connections
-  Serial.println();
-  delay(250);
-  Serial.println("Initializing..");
-  delay(2250);
-  Serial.print("IP address: ");
-  Serial.println(Ethernet.localIP());
-  Serial.println();
+  //Ethernet.begin(mac, ip, gateway, subnet); // Start the Ethernet connection
+  //Ethernet.begin(mac);
 
-  Serial.println("Booted system successfully!");
+  WiFi.config(ip,gateway,subnet);
+  WiFi.begin(ssid, password);
+
+  int i = 0;
+  while ((WiFi.status() != WL_CONNECTED ) && (i < 50) ) {
+  delay(1000);
+  i++;
+  Serial1.print("\nAttempting connection - seconds: ");
+  Serial1.print(i,DEC);
+  if (i == 49) Serial1.print("WiFi connection failed\n");
+  }
+  Serial1.println("");
+  Serial1.println("WiFi connected");
+  // Print the IP address
+  Serial1.println(WiFi.localIP());
+
+  server.begin(); // Begin listening for TCP connections
+//  Serial1.println();
+//  delay(250);
+//  Serial1.println("Initializing..");
+//  delay(2250);
+//  Serial1.print("IP address: ");
+//  Serial1.println(Ethernet.localIP());
+  Serial1.println();
+
+  Serial1.println("Booted system successfully!");
 }
 
 void loop() {
@@ -47,8 +69,8 @@ void loop() {
       // Transmit
       while (client.available()) {
         char c = client.read();
-        /*Serial.write(c);
-        Serial1.write(c);*/
+        /*Serial1.write(c);
+        Serial.write(c);*/
         clientMsg += c; // Store received chars up to newline
         if (c == '\n') {
           Serial1.print(clientMsg); // Then send the message through Serial1
