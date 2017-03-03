@@ -3,8 +3,8 @@
 #include "ESP8266WiFi.h"
 
 // WiFi parameters
-const char* ssid = "tpwifi";
-const char* password = "i9rKym6rqiz83E0d";
+const char* ssid = "Remigio2-4ghz";
+const char* password = "vitopina";
 
 // ethernet
 //byte mac[] = { 0xD3, 0x4D, 0xB3, 0x3F, 0xF3, 0x3D };
