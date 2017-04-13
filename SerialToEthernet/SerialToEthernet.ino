@@ -3,8 +3,10 @@
 #include "ESP8266WiFi.h"
 
 // WiFi parameters
-const char* ssid = "Remigio2-4ghz";
+const char* ssid = "Remigio2-4ghz_1";
 const char* password = "vitopina";
+
+int LedIO = 2; // LED connected to IO pin 13 (in queste electrodragon il pin è il 2)
 
 // ethernet
 //byte mac[] = { 0xD3, 0x4D, 0xB3, 0x3F, 0xF3, 0x3D };
@@ -14,16 +16,17 @@ byte subnet[] = { 255, 255, 255, 0 };
 
 // serial connection
 int serialBaud = 9600;
-int serialCfg = SERIAL_8N1; // Default settings controller has 8 data, 1 stop and no parity.
+SerialConfig serialCfg = SERIAL_8N1; // Default settings controller has 8 data, 1 stop and no parity.
 
 // socket parameters
 int serverPort = 8888;
 
 // start TCP servers
-EthernetServer server(serverPort);
+WiFiServer server(serverPort);
 
 
 void setup() {
+
   delay(1250);
   Serial1.begin(serialBaud, serialCfg); // Open Serial1 communications
   Serial.begin(serialBaud, serialCfg); // Open Serial communications
@@ -59,8 +62,9 @@ void setup() {
 }
 
 void loop() {
+
   // listen for incoming clients
-  EthernetClient client = server.available();
+  WiFiClient client = server.available();
   if (client) {
     String clientMsg = "";
     //String daftCode = "";
