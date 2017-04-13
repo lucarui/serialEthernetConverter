@@ -16,10 +16,43 @@
 					<folderInfo id="it.baeyens.arduino.core.toolChain.release.1315568420.87506547" name="/" resourcePath="">
 						<toolChain id="io.sloeber.core.toolChain.release.1843856540" name="Arduino Toolchain( Sloeber edition)" superClass="io.sloeber.core.toolChain.release">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="io.sloeber.targetplatform.1065550331" name="Arduino Target" osList="all" superClass="io.sloeber.targetplatform"/>
-							<builder buildPath="${workspace_loc:/SerialToEthernet}/Release" id="io.sloeber.sketch.builder.643323569" name="Arduino sketch builder.Release" superClass="io.sloeber.sketch.builder"/>
-							<tool id="io.sloeber.tool.sketch.compiler.cpp.1951344597" name="Arduino C++ Compiler" superClass="io.sloeber.tool.sketch.compiler.cpp"/>
-							<tool id="io.sloeber.tool.compiler.c.284404229" name="Arduino C Compiler" superClass="io.sloeber.tool.compiler.c"/>
-							<tool id="io.sloeber.tool.sketch.compiler.s.1601620379" name="Arduino Assembler" superClass="io.sloeber.tool.sketch.compiler.s"/>
+							<builder buildPath="${workspace_loc:/SerialToEthernet}/Release" id="io.sloeber.sketch.builder.643323569" keepEnvironmentInBuildfile="false" name="Arduino sketch builder" superClass="io.sloeber.sketch.builder"/>
+							<tool id="io.sloeber.tool.sketch.compiler.cpp.1951344597" name="Arduino C++ Compiler" superClass="io.sloeber.tool.sketch.compiler.cpp">
+								<option id="io.sloeber.compiler.cpp.sketch.option.incpath.1469339183" name="Include Paths (-I)" superClass="io.sloeber.compiler.cpp.sketch.option.incpath" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SerialToEthernet/core/core}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SerialToEthernet/core/variant}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SerialToEthernet/libraries/Ethernet/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SerialToEthernet/libraries/Ethernet}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SerialToEthernet/libraries/SPI}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SerialToEthernet/libraries/ESP8266WiFi}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SerialToEthernet/libraries/ESP8266WiFi/src}&quot;"/>
+								</option>
+								<inputType id="io.sloeber.compiler.cpp.sketch.input.33356807" name="CPP source files" superClass="io.sloeber.compiler.cpp.sketch.input"/>
+							</tool>
+							<tool id="io.sloeber.tool.compiler.c.284404229" name="Arduino C Compiler" superClass="io.sloeber.tool.compiler.c">
+								<option id="io.sloeber.compiler.c.sketch.option.incpath.1237830513" name="Include Paths (-I)" superClass="io.sloeber.compiler.c.sketch.option.incpath" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SerialToEthernet/core/core}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SerialToEthernet/core/variant}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SerialToEthernet/libraries/Ethernet}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SerialToEthernet/libraries/Ethernet/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SerialToEthernet/libraries/SPI}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SerialToEthernet/libraries/ESP8266WiFi}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SerialToEthernet/libraries/ESP8266WiFi/src}&quot;"/>
+								</option>
+								<inputType id="io.sloeber.compiler.c.sketch.input.1420564282" name="C Source Files" superClass="io.sloeber.compiler.c.sketch.input"/>
+							</tool>
+							<tool id="io.sloeber.tool.sketch.compiler.s.1601620379" name="Arduino Assembler" superClass="io.sloeber.tool.sketch.compiler.s">
+								<option id="io.sloeber.compiler.asm.sketch.option.incpath.243382572" name="Include Paths (-I)" superClass="io.sloeber.compiler.asm.sketch.option.incpath" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SerialToEthernet/core/core}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SerialToEthernet/core/variant}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SerialToEthernet/libraries/SPI}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SerialToEthernet/libraries/Ethernet}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SerialToEthernet/libraries/Ethernet/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SerialToEthernet/libraries/ESP8266WiFi}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SerialToEthernet/libraries/ESP8266WiFi/src}&quot;"/>
+								</option>
+								<inputType id="io.sloeber.compiler.S.sketch.input.1561716189" name="Assembly source files" superClass="io.sloeber.compiler.S.sketch.input"/>
+							</tool>
 							<tool id="io.sloeber.tool.ar.1843237617" name="Arduino archiver" superClass="io.sloeber.tool.ar"/>
 							<tool id="io.sloeber.tool.combine.2067804249" name="Arduino combiner" superClass="io.sloeber.tool.combine"/>
 							<tool id="io.sloeber.tool.objcopy.eep.1767809510" name="Arduino tool objcopy command" superClass="io.sloeber.tool.objcopy.eep"/>
@@ -47,4 +80,5 @@
 		</configuration>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 </cproject>
