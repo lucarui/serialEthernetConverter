@@ -1,107 +1,89 @@
-#include <SPI.h>
-#include <Ethernet.h>
-#include "ESP8266WiFi.h"
+// ESP8266 WiFi <-> UART Bridge
+// by RoboRemo
+// www.roboremo.com
 
-// WiFi parameters
-const char* ssid = "Remigio2-4ghz_1";
-const char* password = "vitopina";
+// Disclaimer: Don't use RoboRemo for life support systems
+// or any other situations where system failure may affect
+// user or environmental safety.
 
-int LedIO = 2; // LED connected to IO pin 13 (in queste electrodragon il pin è il 2)
+// config: ///////////////////////////////////////
 
-// ethernet
-//byte mac[] = { 0xD3, 0x4D, 0xB3, 0x3F, 0xF3, 0x3D };
+#define UART_BAUD 9600
+
+// ESP WiFi mode:
+
+
+const char *ssid = "Remigio2-4Ghz_1";  // Your ROUTER SSID
+const char *pw = "vitopina"; // and WiFi PASSWORD
+const int port = 8888;
+
 byte ip[] = { 192, 168, 0, 70 };
 byte gateway[] = { 192, 168, 0, 1 };
 byte subnet[] = { 255, 255, 255, 0 };
+//////////////////////////////////////////////////
 
-// serial connection
-int serialBaud = 9600;
-SerialConfig serialCfg = SERIAL_8N1; // Default settings controller has 8 data, 1 stop and no parity.
 
-// socket parameters
-int serverPort = 8888;
+#include <ESP8266WiFi.h>
+#include <WiFiClient.h>
 
-// start TCP servers
-WiFiServer server(serverPort);
+
+WiFiServer server(port);
+WiFiClient client;
+
+
+uint8_t buf1[1024];
+uint8_t i1=0;
+
+uint8_t buf2[1024];
+uint8_t i2=0;
+
 
 
 void setup() {
 
-  delay(1250);
-  Serial1.begin(serialBaud, serialCfg); // Open Serial1 communications
-  Serial.begin(serialBaud, serialCfg); // Open Serial communications
-  //Ethernet.begin(mac, ip, gateway, subnet); // Start the Ethernet connection
-  //Ethernet.begin(mac);
+  delay(500);
+
+  Serial.begin(UART_BAUD);
 
   WiFi.config(ip,gateway,subnet);
-  WiFi.begin(ssid, password);
-
-  int i = 0;
-  while ((WiFi.status() != WL_CONNECTED ) && (i < 50) ) {
-  delay(1000);
-  i++;
-  Serial1.print("\nAttempting connection - seconds: ");
-  Serial1.print(i,DEC);
-  if (i == 49) Serial1.print("WiFi connection failed\n");
+  WiFi.begin(ssid, pw);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(100);
   }
-  Serial1.println("");
-  Serial1.println("WiFi connected");
-  // Print the IP address
-  Serial1.println(WiFi.localIP());
 
-  server.begin(); // Begin listening for TCP connections
-//  Serial1.println();
-//  delay(250);
-//  Serial1.println("Initializing..");
-//  delay(2250);
-//  Serial1.print("IP address: ");
-//  Serial1.println(Ethernet.localIP());
-  Serial1.println();
 
-  Serial1.println("Booted system successfully!");
+  server.begin(); // start TCP server
 }
+
 
 void loop() {
 
-  // listen for incoming clients
-  WiFiClient client = server.available();
-  if (client) {
-    String clientMsg = "";
-    //String daftCode = "";
-    while (client.connected()) {
-
-      // Transmit
-      while (client.available()) {
-        char c = client.read();
-        /*Serial1.write(c);
-        Serial.write(c);*/
-        clientMsg += c; // Store received chars up to newline
-        if (c == '\n') {
-          Serial1.print(clientMsg); // Then send the message through Serial1
-          Serial.print(clientMsg); // Then send the message through Serial
-          clientMsg = "";
-          Serial1.flush();
-          Serial.flush();
-        }
-      }
-
-      // Receive
-      int incomingByte1 = 0; // For incoming serial data
-      while (Serial1.available() > 0) { // If data has been received from the serial connection
-        incomingByte1 = Serial1.read();
-        client.print(char(incomingByte1)); // Print the char data back to the client
-        if (char(incomingByte1) == '\n')
-          client.flush();
-      }
-
-      // Arduino console
-      int incomingByte = 0; // For incoming serial data
-      while (Serial.available() > 0) { // If data has been received from the serial connection
-        incomingByte = Serial.read();
-        client.print(char(incomingByte)); // Print the char data back to the client
-        if (char(incomingByte) == '\n')
-          client.flush();
-      }
-    }
+  if(!client.connected()) { // if client not connected
+    client = server.available(); // wait for it to connect
+    return;
   }
+
+  // here we have a connected client
+
+  if(client.available()) {
+    while(client.available()) {
+      buf1[i1] = (uint8_t)client.read(); // read char from client (RoboRemo app)
+      if(i1<1023) i1++;
+    }
+    // now send to UART:
+    Serial.write(buf1, i1);
+    i1 = 0;
+  }
+
+  if(Serial.available()) {
+    while(Serial.available()) {
+      buf2[i2] = (char)Serial.read(); // read char from UART
+      if(i2<1023) i2++;
+    }
+    // now send to WiFi:
+    client.write((char*)buf2, i2);
+
+    i2 = 0;
+  }
+
 }

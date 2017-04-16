@@ -2,12 +2,12 @@
 //This is a automatic generated file
 //Please do not modify this file
 //If you touch this file your change will be overwritten during the next build
-//This file has been generated on 2017-04-13 17:50:04
+//This file has been generated on 2017-04-16 18:57:57
 
 #include "Arduino.h"
-#include <SPI.h>
-#include <Ethernet.h>
-#include "ESP8266WiFi.h"
+#define UART_BAUD 9600
+#include <ESP8266WiFi.h>
+#include <WiFiClient.h>
 void setup() ;
 void loop() ;
 
