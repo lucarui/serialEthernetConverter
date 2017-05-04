@@ -1,7 +1,4 @@
 // ESP8266 WiFi <-> UART Bridge
-// by RoboRemo
-// www.roboremo.com
-
 //Luca Remigio
 
 #define UART_BAUD 9600
