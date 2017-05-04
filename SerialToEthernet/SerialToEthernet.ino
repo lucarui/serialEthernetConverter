@@ -2,19 +2,15 @@
 // by RoboRemo
 // www.roboremo.com
 
-// Disclaimer: Don't use RoboRemo for life support systems
-// or any other situations where system failure may affect
-// user or environmental safety.
-
-// config: ///////////////////////////////////////
+//Luca Remigio
 
 #define UART_BAUD 9600
 
 // ESP WiFi mode:
 
 
-const char *ssid = "Remigio2-4Ghz_1";  // Your ROUTER SSID
-const char *pw = "vitopina"; // and WiFi PASSWORD
+const char *ssid = "xxxx";  // Your ROUTER SSID
+const char *pw = "xxxx"; // and WiFi PASSWORD
 const int port = 8888;
 
 byte ip[] = { 192, 168, 0, 70 };
